@@ -1,0 +1,38 @@
+{
+  "name": "polypod-people",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "An experiment implementing polypody with people+groups as the most fundamental component",
+  "author": "Robin Berjon <robin@berjon.com>",
+  "license": "MIT",
+  "scripts": {},
+  "bin": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/darobin/polypod-people.git"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "mocha": true,
+      "es2021": true
+    },
+    "extends": "eslint:recommended",
+    "overrides": [],
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+    },
+    "rules": {}
+  },
+  "devDependencies": {
+    "eslint": "^8.26.0"
+  },
+  "dependencies": {
+    "@roamhq/wrtc": "^0.8.0",
+    "chalk": "^5.3.0",
+    "lib0": "^0.2.94",
+    "y-webrtc": "^10.3.0",
+    "yjs": "^13.6.18"
+  }
+}
