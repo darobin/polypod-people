@@ -28,3 +28,10 @@
 ## Phase IV — UI
 
 - [ ] Figure out if Tauri could be right for this
+
+## Notes
+
+### CRDT
+So, Delta doesn't force the data sent around to be CRDT. If you just want to send updates
+that follow a different mechanism (e.g. for chat) then you simply can. The example they
+give is just sending chess commands.
