@@ -1,6 +1,6 @@
 
 import { ok, equal, rejects } from 'node:assert';
-import { IrohNode } from '../lib/iroh.js';
+import { IrohNode, IrohAuthor } from '../lib/iroh.js';
 
 let node;
 
@@ -45,11 +45,14 @@ describe('Iroh Authors', () => {
     const newb = await node.createAuthor();
     const authors = await node.listAuthors();
     ok(authors.find(au => newb.id === au.id), 'new author is listed');
-    await node.deleteAuthor(newb.id);
+    await newb.delete();
     const authorsAfter = await node.listAuthors();
     ok(!authorsAfter.find(au => newb.id === au.id), 'new author deleted');
     await rejects(
-      async () => node.deleteAuthor('whatevs'),
+      async () => {
+        const fake = new IrohAuthor('whatevs', node);
+        await fake.delete();
+      },
       {
         name: 'Error',
         message: 'Failed to delete author',
