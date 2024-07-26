@@ -7,7 +7,8 @@ describe('Runs Iroh', () => {
     const iroh = new IrohNode();
     await iroh.start();
     ok(iroh.started, 'started');
-    await iroh.shutdown();
+    // await iroh.shutdown();
+    iroh.stop();
     ok(!iroh.started, 'stopped');
   });
 });
