@@ -60,3 +60,37 @@ describe('Iroh Authors', () => {
     );
   });
 });
+
+describe('Iroh Docs', () => {
+  it('should list docs', async () => {
+    const docs = await node.listDocs();
+    equal(docs.length, 0, 'we correctly list no docs');
+  });
+  it('should create a doc', async () => {
+    const docsInitial = await node.listDocs();
+    const newDoc = await node.createDoc();
+    ok(newDoc.id, 'doc id');
+    ok(!docsInitial.find(doc => newDoc.id === doc.id), 'new doc was not initially listed');
+    const docsAfter = await node.listDocs();
+    equal(docsInitial.length + 1, docsAfter.length, 'we have more docs');
+    ok(docsAfter.find(doc => newDoc.id === doc.id), 'new doc is listed');
+  });
+  // it('should delete an author', async () => {
+  //   const newb = await node.createAuthor();
+  //   const authors = await node.listAuthors();
+  //   ok(authors.find(au => newb.id === au.id), 'new author is listed');
+  //   await newb.delete();
+  //   const authorsAfter = await node.listAuthors();
+  //   ok(!authorsAfter.find(au => newb.id === au.id), 'new author deleted');
+  //   await rejects(
+  //     async () => {
+  //       const fake = new IrohAuthor('whatevs', node);
+  //       await fake.delete();
+  //     },
+  //     {
+  //       name: 'Error',
+  //       message: 'Failed to delete author',
+  //     }
+  //   );
+  // });
+});
