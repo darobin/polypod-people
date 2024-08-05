@@ -1,4 +1,12 @@
 
+
+
+
+
+---
+
+# OLD STUFF
+
 ## Phase I — Foundation Layer
 
 - [ ] Look at how Delta does CRDT, just the minimum, also Y.js
