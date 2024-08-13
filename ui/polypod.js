@@ -17,14 +17,8 @@ setDefaultAnimation('details.hide', { ...detailsHideAnim, ...animOptions });
 // import './stores/local-tiles.js';
 
 // elements
-// import './el/lab-sidebar.js';
-// import './el/lab-workshop.js';
 import './el/title-bar.js';
 import './el/404.js';
 import './el/root-routes.js';
-// import './el/side-bar.js';
-// import './el/tile-icon.js';
-// import './el/tile-card.js';
-// import './el/tile.js';
-// import './el/identity-switcher.js';
-// import './el/feed-tiles-stack.js';
+import './el/loading.js';
+import './el/login.js';

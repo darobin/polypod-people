@@ -3,7 +3,7 @@ import { atom, onMount } from 'nanostores';
 import { $router } from './router.js';
 
 export const $loggedIn = atom(false);
-export const $logingLoading = atom(true);
+export const $loginLoading = atom(true);
 
 onMount($loggedIn, async () => {
   if (!$loggedIn.get()) $router.open('/login', true);
