@@ -1,12 +1,13 @@
 
-import { LitElement, html, css } from 'lit';
-// import { withStores } from "@nanostores/lit";
+import { LitElement, html, css, nothing } from 'lit';
+import { withStores } from "@nanostores/lit";
 // import { $uiSideBarShowing, toggleSideBar } from '../stores/ui.js';
+import { $loggedIn } from '../stores/identities.js';
 
 // XXX
 // If no one is logged in, don't offer to show the sidebar or in fact anything unrelated
 // to logging in.
-export class PolypodTitleBar extends LitElement /*withStores(LitElement, [$uiSideBarShowing])*/ {
+export class PolypodTitleBar extends withStores(LitElement, [$loggedIn/*$uiSideBarShowing*/]) {
   static styles = [
     css`
       #root {
@@ -61,13 +62,18 @@ export class PolypodTitleBar extends LitElement /*withStores(LitElement, [$uiSid
     `
   ];
   render () {
-    // const open = $uiSideBarShowing.get();
-    // const label = open ? 'Hide side bar' : 'Show side bar';
-    const label = '', toggleSideBar = ()=>{};
+    // const open = $uiSideBarShowing.get(); // XXX <-- this has to rely on $loggedIn
+    const toggleSideBar = ()=>{}, open = false;
+    const label = open ? 'Hide side bar' : 'Show side bar';
     return html`
       <div id="root" class=${open ? 'open' : 'closed'}>
         <div id="icon-bar">
-          <!-- <sl-icon-button name="layout-sidebar" label=${label} @click=${toggleSideBar}></sl-icon-button> -->
+          ${
+            $loggedIn
+            ? html`<sl-icon-button name="layout-sidebar" label=${label} @click=${toggleSideBar}></sl-icon-button>`
+            : nothing
+          }
+          
         </div>
         <div id="title">
           <h1>
