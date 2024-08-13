@@ -18,6 +18,7 @@
     "test": "mocha"
   },
   "bin": {},
+  "main": "app/index-wrapper.cjs",
   "repository": {
     "type": "git",
     "url": "https://github.com/darobin/polypod-people.git"

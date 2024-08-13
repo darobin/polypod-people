@@ -1,12 +1,12 @@
 
 import { LitElement, html, css } from 'lit';
-import { withStores } from "@nanostores/lit";
+// import { withStores } from "@nanostores/lit";
 // import { $uiSideBarShowing, toggleSideBar } from '../stores/ui.js';
 
 // XXX
 // If no one is logged in, don't offer to show the sidebar or in fact anything unrelated
 // to logging in.
-export class PolypodTitleBar extends withStores(LitElement/*, [$uiSideBarShowing]*/) {
+export class PolypodTitleBar extends LitElement /*withStores(LitElement, [$uiSideBarShowing])*/ {
   static styles = [
     css`
       #root {
@@ -56,13 +56,14 @@ export class PolypodTitleBar extends withStores(LitElement/*, [$uiSideBarShowing
   render () {
     // const open = $uiSideBarShowing.get();
     // const label = open ? 'Hide side bar' : 'Show side bar';
+    const label = '', toggleSideBar = ()=>{};
     return html`
       <div id="root" class=${open ? 'open' : 'closed'}>
         <div id="icon-bar">
           <!-- <sl-icon-button name="layout-sidebar" label=${label} @click=${toggleSideBar}></sl-icon-button> -->
         </div>
         <div id="title">
-          <h1>cosmopolis</h1>
+          <h1>polypod</h1>
         </div>
       </div>
     `;

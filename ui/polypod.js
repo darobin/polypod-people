@@ -19,7 +19,7 @@ setDefaultAnimation('details.hide', { ...detailsHideAnim, ...animOptions });
 // elements
 // import './el/lab-sidebar.js';
 // import './el/lab-workshop.js';
-// import './el/title-bar.js';
+import './el/title-bar.js';
 // import './el/side-bar.js';
 // import './el/tile-icon.js';
 // import './el/tile-card.js';
