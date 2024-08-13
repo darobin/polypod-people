@@ -1,5 +1,5 @@
 
-import { atom, computed, action } from 'nanostores';
+import { atom, computed } from 'nanostores';
 import { $loggedIn } from './identities.js';
 // import { $router } from './router.js';
 
@@ -9,6 +9,8 @@ export const $uiSideBarShowing = computed(
   (loggedIn, explicitSideBarShowing) => loggedIn && explicitSideBarShowing
 );
 
-export const showSideBar = action($explicitSideBarShowing, 'showSideBar', (store) => store.set(true));
-export const hideSideBar = action($explicitSideBarShowing, 'hideSideBar', (store) => store.set(false));
-export const toggleSideBar = action($explicitSideBarShowing, 'toggleSideBar', (store) => store.set(!store.get()));
+export function showSideBar () { $explicitSideBarShowing.set(true); }
+export function hideSideBar () { $explicitSideBarShowing.set(false); }
+export function toggleSideBar () { $explicitSideBarShowing.set(!$explicitSideBarShowing.get()); }
+
+export const $uiSideBarButtonShowing = computed([$loggedIn], (loggedIn) => loggedIn);

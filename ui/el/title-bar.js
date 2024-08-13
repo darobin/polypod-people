@@ -1,18 +1,14 @@
 
 import { LitElement, html, css, nothing } from 'lit';
 import { withStores } from "@nanostores/lit";
-import { $uiSideBarShowing, toggleSideBar } from '../stores/ui.js';
+import { $uiSideBarShowing, toggleSideBar, $uiSideBarButtonShowing } from '../stores/ui.js';
 import { $loggedIn } from '../stores/identities.js';
 
-// XXX
-// If no one is logged in, don't offer to show the sidebar or in fact anything unrelated
-// to logging in.
-export class PolypodTitleBar extends withStores(LitElement, [$loggedIn, $uiSideBarShowing]) {
+export class PolypodTitleBar extends withStores(LitElement, [$loggedIn, $uiSideBarShowing, $uiSideBarButtonShowing]) {
   static styles = [
     css`
       #root {
         -webkit-app-region: drag;
-        /* color: var(--pod-complementary-electric); */
         background: var(--pod-neutral-grey);
         display: flex;
         align-items: center;
@@ -68,11 +64,10 @@ export class PolypodTitleBar extends withStores(LitElement, [$loggedIn, $uiSideB
       <div id="root" class=${open ? 'open' : 'closed'}>
         <div id="icon-bar">
           ${
-            $loggedIn
+            $uiSideBarButtonShowing.get()
             ? html`<sl-icon-button name="layout-sidebar" label=${label} @click=${toggleSideBar}></sl-icon-button>`
             : nothing
           }
-          
         </div>
         <div id="title">
           <h1>

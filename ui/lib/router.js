@@ -4,7 +4,7 @@
 
 import { atom, onMount } from 'nanostores';
 
-export function createRouter (routes) {
+export function createRouter (routes, options) {
   const router = atom();
   router.routes = Object.keys(routes).map(name => {
     let value = routes[name];
@@ -40,6 +40,7 @@ export function createRouter (routes) {
       const match = path.match(pattern);
       if (match) return { params: cb(...match.slice(1)), path, route };
     }
+    if (options?.notFound) return { params: { requestedPath: path }, path: options.notFound, route: '404' };
   }
 
   const click = event => {
@@ -92,8 +93,8 @@ export function createRouter (routes) {
     const page = parse(path);
     if (page !== false) {
       if (typeof history !== 'undefined') {
-        if (redirect) history.replaceState(null, null, path);
-        else history.pushState(null, null, path);
+        if (redirect) history.replaceState(null, null, `#${path}`);
+        else history.pushState(null, null, `#${path}`);
       }
       set(page);
     }
