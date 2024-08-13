@@ -11,45 +11,52 @@ export class PolypodTitleBar extends LitElement /*withStores(LitElement, [$uiSid
     css`
       #root {
         -webkit-app-region: drag;
-        color: var(--cm-complementary-electric);
-        background: var(--cm-neutral-grey);
+        /* color: var(--pod-complementary-electric); */
+        background: var(--pod-neutral-grey);
         display: flex;
         align-items: center;
         /* NOTE: this is OSX-specific */
-        padding-left: var(--cm-traffic-light-padding);
-        height: var(--cm-osx-title-bar-height);
+        padding-left: var(--pod-traffic-light-padding);
+        height: var(--pod-osx-title-bar-height);
         transition: padding-left var(--sl-transition-medium);
-        border-bottom: 1px solid var(--cm-mid-grey);
+        border-bottom: 1px solid var(--pod-mid-grey);
       }
       #root.open {
         /* NOTE: this is OSX-specific and assumes 400px wide */
-        padding-left: calc(var(--cm-side-bar-width) - var(--cm-osx-title-bar-height));
+        padding-left: calc(var(--pod-side-bar-width) - var(--pod-osx-title-bar-height));
       }
       #icon-bar {
         display: flex;
         align-items: center;
-        min-width: var(--cm-osx-title-bar-height);
-        min-height: var(--cm-osx-title-bar-height);
-        border-right: 1px solid var(--cm-mid-grey);
+        min-width: var(--pod-osx-title-bar-height);
+        min-height: var(--pod-osx-title-bar-height);
+        border-right: 1px solid var(--pod-mid-grey);
       }
       #title {
         display: flex;
         align-items: center;
         width: -webkit-fill-available;
-        background: var(--cm-lightest);
+        background: var(--pod-lightest);
         height: 100%;
       }
       h1 {
-        padding: 0 0 0 var(--sl-spacing-x-small);
+        display: flex;
+        align-items: end;
+        color: var(--pod-dark);
+        padding: 0;
         margin: 0;
-        font-family: var(--cm-title-font);
-        font-size: var(--cm-large-text);
+        font-family: var(--pod-title-font);
+        font-size: var(--pod-large-text);
         font-weight: 100;
         font-variation-settings: "wght" 100; /* Chrome doesn't apply font-weight correctly. */
       }
+      h1 img {
+        height: var(--pod-osx-title-bar-height);
+        margin-right: var(--sl-spacing-x-small);
+      }
       sl-icon-button {
-        font-size: var(--cm-large-text);
-        color: var(--cm-electric-blue);
+        font-size: var(--pod-large-text);
+        color: var(--pod-electric-blue);
       }
     `
   ];
@@ -63,7 +70,10 @@ export class PolypodTitleBar extends LitElement /*withStores(LitElement, [$uiSid
           <!-- <sl-icon-button name="layout-sidebar" label=${label} @click=${toggleSideBar}></sl-icon-button> -->
         </div>
         <div id="title">
-          <h1>polypod</h1>
+          <h1>
+            <img src="app/img/icon.svg" alt="polypod logo">
+            <span>polypod</span>
+          </h1>
         </div>
       </div>
     `;

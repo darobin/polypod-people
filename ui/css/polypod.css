@@ -16,8 +16,18 @@ font-style: italic;
 }
 
 :root {
+  --pod-bright: #4df186;
+  --pod-dark: #0c923b;
+  --pod-lightest: #fff;
+  --pod-mid-grey: #ccc;
+  --pod-neutral-grey: #efefef;
+  --pod-street-size: 50px;
+  --pod-title-font: Catamaran;
+  --pod-body-font: Mulish;
+  --pod-large-text: 1.4rem;
   /*  These colours are inspired by the work of Elyse Dodge, specifically
       https://www.elysedodge.com/blogs/paintings/lemon-drop.
+      GETTING RID OF THEM
   */
   --cm-sky-dark: #fc6649;
   --cm-sky-light: #e5c6a7;
@@ -28,18 +38,11 @@ font-style: italic;
   --cm-electric-blue: #1789e2;
   --cm-dark-electric: #0a3d63;
   --cm-complementary-electric: #085996;
-  --cm-lightest: #fff;
-  --cm-mid-grey: #ccc;
-  --cm-neutral-grey: #efefef;
-  --cm-street-size: 50px;
-  --cm-title-font: Catamaran;
-  --cm-body-font: Mulish;
-  --cm-large-text: 1.4rem;
 
-  --cm-osx-title-bar-height: 40px;
-  --cm-traffic-light-padding: 80px;
-  --cm-side-bar-width: 360px;
-  --cm-footer-height: 55px;
+  --pod-osx-title-bar-height: 40px;
+  --pod-traffic-light-padding: 80px;
+  --pod-side-bar-width: 360px;
+  --pod-footer-height: 55px;
 
   /* managing Shoelace tokens */
   --sl-input-font-family: var(--cm-body-font);

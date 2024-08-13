@@ -14,10 +14,10 @@ Target: EO2024Q3.
   - [x] configuration secrets in GH API?
 - [ ] minimal polypod server deploy (caddy + deploy + express)
 - [ ] minimal Electron app (copy from previous, unless production it uses local server)
-  - [ ] esm stuff
-  - [ ] shoelace+lit
+  - [x] esm stuff
+  - [x] shoelace+lit
   - [ ] nanostore
-  - [ ] window settings
+  - [x] window settings
 - [ ] Login via Bluesky app password
 - [ ] Generate key locally and store it safely
 - [ ] Save pubkey to server with app pwd to verify
