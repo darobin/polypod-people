@@ -1,0 +1,80 @@
+
+@font-face {
+  font-family: "Catamaran";
+  src: url("Catamaran-VariableFont_wght.ttf");
+  font-style: normal;
+}
+@font-face {
+font-family: "Mulish";
+src: url("Mulish-VariableFont_wght.ttf");
+font-style: normal;
+}
+@font-face {
+font-family: "Mulish";
+src: url("Mulish-Italic-VariableFont_wght.ttf");
+font-style: italic;
+}
+
+:root {
+  /*  These colours are inspired by the work of Elyse Dodge, specifically
+      https://www.elysedodge.com/blogs/paintings/lemon-drop.
+  */
+  --cm-sky-dark: #fc6649;
+  --cm-sky-light: #e5c6a7;
+  --cm-sky-fog: #e5c6a7cc;
+  --cm-street-dark: #243bb7;
+  --cm-street-medium: #394fc5;
+  --cm-street-light: #4a5bcd;
+  --cm-electric-blue: #1789e2;
+  --cm-dark-electric: #0a3d63;
+  --cm-complementary-electric: #085996;
+  --cm-lightest: #fff;
+  --cm-mid-grey: #ccc;
+  --cm-neutral-grey: #efefef;
+  --cm-street-size: 50px;
+  --cm-title-font: Catamaran;
+  --cm-body-font: Mulish;
+  --cm-large-text: 1.4rem;
+
+  --cm-osx-title-bar-height: 40px;
+  --cm-traffic-light-padding: 80px;
+  --cm-side-bar-width: 360px;
+  --cm-footer-height: 55px;
+
+  /* managing Shoelace tokens */
+  --sl-input-font-family: var(--cm-body-font);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  background-attachment: fixed;
+  background-size: cover;
+  background: var(--cm-lightest);
+  font-family: var(--cm-body-font);
+  font-weight: 250;
+  font-variation-settings: "wght" 250;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: grid;
+  grid-template-rows: min-content 1fr;
+  grid-template-areas:
+    "a"
+    "b"
+  ;
+  height: 100%;
+}
+
+/* assuming there'll be one of these */
+pod-title-bar {
+  grid-area: a;
+}
