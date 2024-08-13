@@ -6,6 +6,15 @@
   "author": "Robin Berjon <robin@berjon.com>",
   "license": "MIT",
   "scripts": {
+    "start": "./server.js",
+    "app": "electron --trace-warnings .",
+    "watch": "concurrently --handle-input npm:watch-js npm:monitor",
+    "monitor": "electronmon --trace-warnings --require ./dev-watch.cjs .",
+    "build": "npm run build-assets && npm run build-js && npm run build-electron",
+    "watch-js": "esbuild ui/cosmopolis.js --bundle --outfile=ui/cosmopolis.min.js --format=esm --watch --sourcemap",
+    "build-js": "esbuild ui/cosmopolis.js --bundle --outfile=ui/cosmopolis.min.js --format=esm",
+    "build-electron": "npm exec electron-builder --mac",
+    "build-assets": "./copy-assets.sh",
     "test": "mocha"
   },
   "bin": {},
@@ -28,10 +37,20 @@
     "rules": {}
   },
   "devDependencies": {
-    "eslint": "^8.26.0",
-    "mocha": "^10.6.0"
-  },
-  "dependencies": {
-    "chalk": "^5.3.0"
+    "@nanostores/lit": "^0.2.1",
+    "@shoelace-style/shoelace": "^2.16.0",
+    "chalk": "^5.3.0",
+    "concurrently": "^8.2.2",
+    "electron": "^31.3.1",
+    "electron-settings": "^4.0.4",
+    "electronmon": "^2.0.3",
+    "esbuild": "^0.23.0",
+    "eslint": "^8.57.0",
+    "esm": "^3.2.25",
+    "lit": "^3.2.0",
+    "mocha": "^10.6.0",
+    "nanoid": "^5.0.7",
+    "nanoid-dictionary": "^4.3.0",
+    "nanostores": "^0.11.2"
   }
 }

@@ -1,45 +1,44 @@
 
+# Fake It Till You Make It
+
+That is the focus of this version. Pretty much everything is fake! Haha! But it should work
+well enough (with likely imperfect security) that we can use it with multiple people and see
+that we have a thing.
+
+Target: EO2024Q3.
+
+## Phase I: August Intentions
+
+- [x] Caddy works locally
+- [x] echo. deployment works
+  - [x] configuration secrets in GH API?
+- [ ] minimal polypod server deploy (caddy + deploy + express)
+- [ ] minimal Electron app (copy from previous, unless production it uses local server)
+  - [ ] esm stuff
+  - [ ] shoelace+lit
+  - [ ] nanostore
+  - [ ] window settings
+- [ ] Login via Bluesky app password
+- [ ] Generate key locally and store it safely
+- [ ] Save pubkey to server with app pwd to verify
+- [ ] Generate invitation
+- [ ] Address book management with Bluesky IDs (handle/DID)
+- [ ] Group management: each group in its own window + list of docs
+- [ ] Tiles + doc instances system + sharing them to the server so they are there for all
+- [ ] Secure wrapping of tile context
+- [ ] XDC data sharing APIs
+- [ ] Wishes
+- [ ] Sync system: Yjs, find projects/groups, sync project list, optionally doc content (on demand/load)
+
+## Phase II: Eternal September
+
+- [ ] Business/agent support (e.g. interact with a blog by inviting them to the same group, buy something)
+- [ ] ModPol
+- [ ] Add participation rules (e.g. chess has two players with watchers, max people…)
+- [ ] Need a story for tiles sharing and how they update (Authentic Attributes)
+- [ ] Use AuthAttr to create version histories?
+
+## Phase III: October Surprise
 
 
-
-
----
-
-# OLD STUFF
-
-## Phase I — Foundation Layer
-
-- [ ] Look at how Delta does CRDT, just the minimum, also Y.js
-- [ ] Create groups as a CRDT object
-  - [ ] Creation
-  - [ ] Naming
-  - [ ] Inviting people
-  - [ ] Accepting invitations
-  - [ ] Verify all messages at all endpoints (signing required — this drives Person)
-- [ ] Create the simplest possible person abstraction that can
-  - [ ] Hold profile: name, description, pfp
-  - [ ] Map handle to DID, like PLC (it's likely PLC)
-  - [ ] Have a public key to verify messages with
-  - [ ] Have a private key with which to sign content (maybe the limit with PLC from Bluesky)
-  - [ ] Store that private key securely (look at Delta? look at keychain)
-
-## Phase II — Basic Apps
-
-- [ ] Look at how Delta integrates apps into common channels
-- [ ] Integrate the simplest app with a model that can share state and is safe
-
-## Phase III — Networking
-
-- [ ] Look at how Delta integrates with its networking layer (JSON-RPC API)
-- [ ] Build a simple iroh.network that has the right properties
-
-## Phase IV — UI
-
-- [ ] Figure out if Tauri could be right for this
-
-## Notes
-
-### CRDT
-So, Delta doesn't force the data sent around to be CRDT. If you just want to send updates
-that follow a different mechanism (e.g. for chat) then you simply can. The example they
-give is just sending chess commands.
+## Phase IV: November Rain
