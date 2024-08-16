@@ -2,12 +2,19 @@
 import { app, BrowserWindow }  from 'electron';
 import { manageWindowPosition } from './lib/window-manager.js';
 import { initProfileDir, loadIdentities } from './lib/app-storage.js';
+import isProd from '../shared/is-prod.js';
 import makeRel from '../shared/rel.js';
 // import tileProtocolHandler from './tile-protocol-handler.js';
 import { registerPlatformServiceHandlers, setupMenu } from './platform-services.js';
 
+// Docs
+// - profile: so the app can support multiple profiles
+// - identities {}
+//    - profile: the full Bluesky profile as returned by the API
+//    - blueskyAccount: the handle that we're using for Bluesky
+// - keyPair: { privateKey, publicKey }
 export const ctx = {
-  profile: '_default',
+  profile: isProd ? '_default' : '_default-dev',
 };
 let mainWindow;
 const rel = makeRel(import.meta.url);

@@ -5,6 +5,7 @@ import keychain from 'keychain';
 import { AtpAgent } from '@atproto/api';
 import { ctx } from '../index.js';
 import { saveIdentities, publicKeyData } from './app-storage.js';
+import { personHasHandle, personSetup } from './remote.js';
 
 const service = 'space.polypod';
 const type = 'generic';
@@ -34,7 +35,7 @@ export async function setBlueskyCredentials (user, password) {
   if (!ctx.identities) ctx.identities = {};
   ctx.identities.blueskyAccount = user;
   try {
-    ctx.profile = await agent.getProfile({ actor: user });    
+    ctx.identities.profile = await agent.getProfile({ actor: user });    
   }
   catch (err) {
     return err;
@@ -49,17 +50,18 @@ export async function setBlueskyCredentials (user, password) {
 }
 
 export async function profileKeyPair () {
+  if (!ctx.identities?.blueskyAccount) return new Error('No Bluesky account.');
   const account = `${ctx.identities.blueskyAccount}-private-key`;
-  return new Promise((resolve, reject) => {
-    if (!ctx.identities?.blueskyAccount) reject(new Error('No Bluesky account.'))
+  return new Promise((resolve) => {
     keychain.getPassword(
       { account, service, type }, 
       async (err, key) => {
-        if (err) return reject(err);
         try {
+          if (err) throw err;
           const pubKey = await readFile(publicKeyData());
           const privateKey = await subtle.importKey('jwk', key, keyParams, keyExtractable, keyUsages);
           const publicKey = await subtle.importKey('jwk', pubKey, keyParams, keyExtractable, keyUsages);
+          ctx.keyPair = { privateKey, publicKey };
           resolve({ privateKey, publicKey });
         }
         catch (err) {
@@ -75,4 +77,13 @@ export async function profileKeyPair () {
       }
     );
   });
+}
+
+export async function publishUser () {
+  if (!ctx.identities?.blueskyAccount) return new Error('No Bluesky account.');
+  if (!ctx.keyPair?.publicKey) return new Error('No public key.');
+  const hasPerson = await personHasHandle(ctx.identities.blueskyAccount);
+  if (hasPerson) return true;
+  const success = await personSetup(ctx.identities.blueskyAccount, ctx.keyPair.publicKey);
+  return success;
 }

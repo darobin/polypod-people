@@ -40,6 +40,7 @@
   "devDependencies": {
     "@nanostores/lit": "github:darobin/lit#patch-1",
     "@shoelace-style/shoelace": "^2.16.0",
+    "axios": "^1.7.4",
     "chalk": "^5.3.0",
     "concurrently": "^8.2.2",
     "electron": "^31.3.1",

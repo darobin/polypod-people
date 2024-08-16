@@ -1,5 +1,5 @@
 
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import express from 'express';
 import { PORT } from './shared/constants.js';
@@ -15,6 +15,17 @@ await mkdir(rel('data'));
 
 app.get('/', (req, res) => {
   res.send('Polypod operational.');
+});
+
+app.get('/person/:handle', async (req, res) => {
+  const { handle } = req.params;
+  try {
+    await readFile(rel(`data/${handle}/public.jwt`));
+  }
+  catch (err) {
+    return res.status(404).send({ ok: false });
+  }
+  res.send({ ok: true });
 });
 
 // Just to be clear: THIS IS COMPLETELY UNSAFE.
