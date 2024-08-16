@@ -3,15 +3,16 @@ import { join } from 'node:path';
 import { mkdir } from 'node:fs/promises';
 import { app }  from 'electron';
 import { ctx } from '../index.js';
-import loadJSON from './load-json.js'
-import saveJSON from './save-json.js'
+import loadJSON from '../../shared/load-json.js'
+import saveJSON from '../../shared/save-json.js'
 
 
 export function profileDir () {
   return join(app.getPath('userData'), ctx.profile);
 }
 // function sessionData () { return join(profileDir(), 'session.json'); }
-function identitiesData () { return join(profileDir(), 'identities.json'); }
+export function identitiesData () { return join(profileDir(), 'identities.json'); }
+export function publicKeyData () { return join(profileDir(), 'public.jwk'); }
 
 export async function initProfileDir () {
   const dir = profileDir();

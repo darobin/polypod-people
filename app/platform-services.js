@@ -3,7 +3,7 @@ import process from 'node:process';
 import { ipcMain, Menu, shell }  from 'electron';
 import chalk from 'chalk';
 import { ctx } from './index.js';
-import { setBlueskyCredentials } from './lib/credentials.js';
+import { setBlueskyCredentials, profileKeyPair } from './lib/credentials.js';
 
 const { handle } = ipcMain;
 
@@ -88,11 +88,16 @@ async function handleLoadIdentities () {
 }
 
 async function handleLogin (ev, usr, pwd) {
-  await setBlueskyCredentials(usr, pwd);
-  // XXX
-  // - generate key and store it
-  // - set up with polypod server
-  return { ok: true };
+  try {
+    await setBlueskyCredentials(usr, pwd);
+    const kp = await profileKeyPair();
+    // XXX
+    // - set up with polypod server
+    return { ok: true };
+  }
+  catch (err) {
+    return { ok: false, ...err };
+  }
 }
 
 // async function handleSettingsGet (ev, keyPath) {

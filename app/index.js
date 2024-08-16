@@ -2,7 +2,7 @@
 import { app, BrowserWindow }  from 'electron';
 import { manageWindowPosition } from './lib/window-manager.js';
 import { initProfileDir, loadIdentities } from './lib/app-storage.js';
-import makeRel from './lib/rel.js';
+import makeRel from '../shared/rel.js';
 // import tileProtocolHandler from './tile-protocol-handler.js';
 import { registerPlatformServiceHandlers, setupMenu } from './platform-services.js';
 

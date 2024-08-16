@@ -17,6 +17,7 @@ export class PolypodLogin extends withStores(LitElement, [$loggedIn, $loginLoadi
       }
     `
   ];
+  // XXX include WARNING: nothing is stored safely, use at your own risk
   render () {
     if ($loginLoading.get()) return html`<pod-loading></pod-loading>`
     return html`<div>login here</div>`;
