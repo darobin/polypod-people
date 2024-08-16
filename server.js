@@ -13,6 +13,10 @@ const app = express();
 const rel = makeRel(import.meta.url);
 await mkdir(rel('data'));
 
+app.get('/', (req, res) => {
+  res.send('Polypod operational.');
+});
+
 // Just to be clear: THIS IS COMPLETELY UNSAFE.
 // The point here is a working prototype that can demonstrate the interaction and
 // potential of the approach. DO NOT USE THIS FOR ANYTHING SERIOUS.

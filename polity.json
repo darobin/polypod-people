@@ -1,0 +1,6 @@
+{
+  "owner": "darobin", 
+  "repo": "polypod-people", 
+  "domain": "api.polypod.space", 
+  "script": "server.js" 
+}
