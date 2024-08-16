@@ -2,11 +2,15 @@
 import process from 'node:process';
 import { ipcMain, Menu, shell }  from 'electron';
 import chalk from 'chalk';
+import { ctx } from './index.js';
+import { setBlueskyCredentials } from './lib/credentials.js';
 
 const { handle } = ipcMain;
 
 export function registerPlatformServiceHandlers () {
   handle('dbg:warn', handleDebugWarn);
+  handle('identity:load', handleLoadIdentities);
+  handle('identity:login', handleLogin);
   // handle('simple-data:get', handleSettingsGet);
   // handle('simple-data:set', handleSettingsSet);
   // handle('wish:pick-local-image', handlePickLocalImage);
@@ -76,6 +80,19 @@ export function setupMenu () {
   ];
   const menu = Menu.buildFromTemplate(template)
   Menu.setApplicationMenu(menu)
+}
+
+async function handleLoadIdentities () {
+  if (!ctx.identities?.profile) return { ok: false, error: 'No profile.' };
+  return { ok: true, data: ctx.identities.profile };
+}
+
+async function handleLogin (ev, usr, pwd) {
+  await setBlueskyCredentials(usr, pwd);
+  // XXX
+  // - generate key and store it
+  // - set up with polypod server
+  return { ok: true };
 }
 
 // async function handleSettingsGet (ev, keyPath) {

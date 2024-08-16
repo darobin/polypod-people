@@ -1,10 +1,14 @@
 
 import { app, BrowserWindow }  from 'electron';
 import { manageWindowPosition } from './lib/window-manager.js';
+import { initProfileDir, loadIdentities } from './lib/app-storage.js';
 import makeRel from './lib/rel.js';
 // import tileProtocolHandler from './tile-protocol-handler.js';
 import { registerPlatformServiceHandlers, setupMenu } from './platform-services.js';
 
+export const ctx = {
+  profile: '_default',
+};
 let mainWindow;
 const rel = makeRel(import.meta.url);
 
@@ -25,6 +29,8 @@ else {
 app.whenReady().then(async () => {
   // protocol.registerStreamProtocol('tile', tileProtocolHandler);
   registerPlatformServiceHandlers();
+  await initProfileDir();
+  await loadIdentities();
   mainWindow = new BrowserWindow({
     show: false,
     backgroundColor: '#fff',

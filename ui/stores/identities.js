@@ -4,6 +4,7 @@ import { $router } from './router.js';
 
 export const $loggedIn = atom(false);
 export const $loginLoading = atom(true);
+export const $identities = atom([]);
 
 onMount($loggedIn, async () => {
   if (!$loggedIn.get()) $router.open('/login', true);
@@ -11,9 +12,15 @@ onMount($loggedIn, async () => {
 });
 
 export async function loadIdentities () {
-  // XXXX
-  // - need to set up window.polypod to call window.polypod.loadIdentities() on it
-  // - the backend does whatever it needs to do to give us identities, or nothing (store them obvi)
-  // - loggedIn to true
-  // - loginLoading to false
+  $loginLoading.set(true);
+  const res = await window.polypod.loadIdentities();
+  $loginLoading.set(false);
+  if (res.ok) {
+    $loggedIn.set(true);
+    $identities.set(res.data);
+  }
+  else {
+    $loggedIn.set(false);
+    $identities.set([]);
+  }
 }
