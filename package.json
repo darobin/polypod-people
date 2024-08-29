@@ -59,6 +59,7 @@
   },
   "dependencies": {
     "@atproto/api": "^0.13.1",
+    "@number0/iroh": "^0.23.0",
     "express": "^4.19.2"
   }
 }

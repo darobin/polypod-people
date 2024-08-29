@@ -91,6 +91,9 @@ async function handleLogin (ev, usr, pwd) {
   try {
     await setBlueskyCredentials(usr, pwd);
     await profileKeyPair();
+    // XXX
+    // create an Iroh author here, persistent
+    // use the Iroh private key?
     await publishUser();
     return { ok: true };
   }
