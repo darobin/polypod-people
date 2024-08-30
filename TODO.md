@@ -5,6 +5,14 @@ That is the focus of this version. Pretty much everything is fake! Haha! But it 
 well enough (with likely imperfect security) that we can use it with multiple people and see
 that we have a thing.
 
+## Phase 0: Show Something
+Target: first week of September
+
+- [ ] Update matrix-js-sdk when released after 30/08
+- [ ] Matrix store
+
+
+
 Target: EO2024Q3.
 
 ## Phase I: August Intentions

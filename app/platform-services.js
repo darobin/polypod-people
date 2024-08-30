@@ -2,15 +2,15 @@
 import process from 'node:process';
 import { ipcMain, Menu, shell }  from 'electron';
 import chalk from 'chalk';
-import { ctx } from './index.js';
-import { setBlueskyCredentials, profileKeyPair, publishUser } from './lib/credentials.js';
+import { getCredentials, setCredentials } from './lib/credentials.js';
 
 const { handle } = ipcMain;
 
 export function registerPlatformServiceHandlers () {
   handle('dbg:warn', handleDebugWarn);
-  handle('identity:load', handleLoadIdentities);
-  handle('identity:login', handleLogin);
+  handle('identity:get-credentials', handleGetCredentials);
+  handle('identity:set-credentials', handleSetCredentials);
+  // handle('identity:login', handleLogin);
   // handle('simple-data:get', handleSettingsGet);
   // handle('simple-data:set', handleSettingsSet);
   // handle('wish:pick-local-image', handlePickLocalImage);
@@ -25,6 +25,64 @@ export function registerPlatformServiceHandlers () {
   //   });
   //   receiveMessagePort.start();
   // });
+// }
+
+async function handleGetCredentials () {
+  return { ok: true, data: await getCredentials() };
+}
+
+async function handleSetCredentials (usr, pwd) {
+  await setCredentials(usr, pwd);
+  return { ok: true };
+}
+
+// async function handleLogin (ev, usr, pwd) {
+  // try {
+    // await setBlueskyCredentials(usr, pwd);
+    // await profileKeyPair();
+    // XXX
+    // create an Iroh author here, persistent
+    // use the Iroh private key?
+    // await publishUser();
+    // return { ok: true };
+  // }
+  // catch (err) {
+  //   return { ok: false, ...err };
+  // }
+// }
+
+// async function handleSettingsGet (ev, keyPath) {
+//   return getSetting(keyPath);
+// }
+// async function handleSettingsSet (ev, keyPath, data) {
+//   return setSetting(keyPath, data);
+// }
+
+// XXX we should be passing parameters here
+// async function handlePickLocalImage () {
+//   const { canceled, filePaths } = await dialog.showOpenDialog({
+//     title: 'Pick Image',
+//     buttonLabel: 'Pick',
+//     properties: ['openFile', 'treatPackageAsDirectory'],
+//     message: 'Pick an image.'
+//   });
+//   if (canceled) return;
+//   if (filePaths && filePaths.length) {
+//     const img = filePaths[0];
+//     const type = mime.lookup(img);
+//     return {
+//       blob: await readFile(img),
+//       type,
+//     };
+//   }
+// }
+
+function handleDebugWarn (ev, str) {
+  console.warn(chalk.magenta(str));
+}
+
+// async function handleGenerateID () {
+//   return nanoid();
 // }
 
 export function setupMenu () {
@@ -81,57 +139,3 @@ export function setupMenu () {
   const menu = Menu.buildFromTemplate(template)
   Menu.setApplicationMenu(menu)
 }
-
-async function handleLoadIdentities () {
-  if (!ctx.identities?.profile) return { ok: false, error: 'No profile.' };
-  return { ok: true, data: ctx.identities.profile };
-}
-
-async function handleLogin (ev, usr, pwd) {
-  try {
-    await setBlueskyCredentials(usr, pwd);
-    await profileKeyPair();
-    // XXX
-    // create an Iroh author here, persistent
-    // use the Iroh private key?
-    await publishUser();
-    return { ok: true };
-  }
-  catch (err) {
-    return { ok: false, ...err };
-  }
-}
-
-// async function handleSettingsGet (ev, keyPath) {
-//   return getSetting(keyPath);
-// }
-// async function handleSettingsSet (ev, keyPath, data) {
-//   return setSetting(keyPath, data);
-// }
-
-// XXX we should be passing parameters here
-// async function handlePickLocalImage () {
-//   const { canceled, filePaths } = await dialog.showOpenDialog({
-//     title: 'Pick Image',
-//     buttonLabel: 'Pick',
-//     properties: ['openFile', 'treatPackageAsDirectory'],
-//     message: 'Pick an image.'
-//   });
-//   if (canceled) return;
-//   if (filePaths && filePaths.length) {
-//     const img = filePaths[0];
-//     const type = mime.lookup(img);
-//     return {
-//       blob: await readFile(img),
-//       type,
-//     };
-//   }
-// }
-
-function handleDebugWarn (ev, str) {
-  console.warn(chalk.magenta(str));
-}
-
-// async function handleGenerateID () {
-//   return nanoid();
-// }

@@ -1,7 +1,7 @@
 
 import { app, BrowserWindow }  from 'electron';
 import { manageWindowPosition } from './lib/window-manager.js';
-import { initProfileDir, loadIdentities } from './lib/app-storage.js';
+import { initProfileDir } from './lib/app-storage.js';
 import isProd from '../shared/is-prod.js';
 import makeRel from '../shared/rel.js';
 // import tileProtocolHandler from './tile-protocol-handler.js';
@@ -9,12 +9,10 @@ import { registerPlatformServiceHandlers, setupMenu } from './platform-services.
 
 // Docs
 // - profile: so the app can support multiple profiles
-// - identities {}
-//    - profile: the full Bluesky profile as returned by the API
-//    - blueskyAccount: the handle that we're using for Bluesky
-// - keyPair: { privateKey, publicKey }
+// - domain: the Matrix domain
 export const ctx = {
   profile: isProd ? '_default' : '_default-dev',
+  // domain: isProd ? 'matrix.polypod.space' : 'matrix.polypod.bast',
 };
 let mainWindow;
 const rel = makeRel(import.meta.url);
@@ -37,7 +35,6 @@ app.whenReady().then(async () => {
   // protocol.registerStreamProtocol('tile', tileProtocolHandler);
   registerPlatformServiceHandlers();
   await initProfileDir();
-  await loadIdentities();
   mainWindow = new BrowserWindow({
     show: false,
     backgroundColor: '#fff',

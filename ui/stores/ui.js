@@ -1,6 +1,6 @@
 
 import { atom, computed } from 'nanostores';
-import { $loggedIn } from './identities.js';
+import { $loggedIn } from './identity.js';
 // import { $router } from './router.js';
 
 const $explicitSideBarShowing = atom(true);

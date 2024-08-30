@@ -41,7 +41,7 @@ ip_range_denylist = [
 # true in your config. If you would like
 # registration only via token reg, please configure the `registration_token` key.
 allow_registration = true
-registration_token = "moot glucose mystery brigand"
+registration_token = "moot-glucose-mystery-brigand"
 
 # we will probably change this when we figure out the right model
 allow_federation = false
@@ -55,6 +55,6 @@ new_user_displayname_suffix = ""
 server = "matrix.polypod.space:443"
 client = "https://matrix.polypod.space"
 support_page = "https://github.com/darobin/polypod-people"
-support_role = ""
+#support_role = ""
 support_email = "robin@berjon.com"
-support_mxid = ""
+#support_mxid = ""

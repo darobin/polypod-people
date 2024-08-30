@@ -2,7 +2,7 @@
 import { LitElement, html, css, nothing } from 'lit';
 import { withStores } from "@nanostores/lit";
 import { $uiSideBarShowing, toggleSideBar, $uiSideBarButtonShowing } from '../stores/ui.js';
-import { $loggedIn } from '../stores/identities.js';
+import { $loggedIn } from '../stores/identity.js';
 
 export class PolypodTitleBar extends withStores(LitElement, [$loggedIn, $uiSideBarShowing, $uiSideBarButtonShowing]) {
   static styles = [

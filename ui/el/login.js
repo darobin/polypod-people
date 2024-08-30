@@ -1,7 +1,7 @@
 
 import { LitElement, html, css } from 'lit';
 import { withStores } from "@nanostores/lit";
-import { $loggedIn, $loginLoading } from '../stores/identities.js';
+import { $loggedIn, $loginLoading } from '../stores/identity.js';
 
 export class PolypodLogin extends withStores(LitElement, [$loggedIn, $loginLoading]) {
   static styles = [

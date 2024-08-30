@@ -1,5 +1,5 @@
 /* eslint-disable global-require */
-/* global require */
+/* global require, process */
 const { contextBridge, ipcRenderer } = require('electron');
 const { invoke } = ipcRenderer;
 
@@ -12,9 +12,12 @@ contextBridge.exposeInMainWorld('polypod', {
   //   sendMessagePort = port1;
   //   ipcRenderer.postMessage('connect-port', null, [port2]);
   // },
+  // configuration
+  domain: (process.env.NODE_ENV === 'production') ? 'matrix.polypod.space' : 'matrix.polypod.bast',
   // identity & login
-  loadIdentities: () => invoke('identity:load'),
-  login: (usr, pwd) => invoke('identity:login', usr, pwd),
+  getCredentials: () => invoke('identity:get-credentials'),
+  setCredentials: (usr, pwd) => invoke('identity:set-credentials', usr, pwd),
+  // login: (usr, pwd) => invoke('identity:login', usr, pwd),
   // preferences
   // getSimpleData: (keyPath) => invoke('simple-data:get', keyPath),
   // setSimpleData: (keyPath, data) => invoke('simple-data:set', keyPath, data),
