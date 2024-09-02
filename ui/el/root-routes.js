@@ -15,7 +15,7 @@ export class PolypodRootRoutes extends withStores(LitElement, [$router]) {
     const { route } = $router.get();
     switch (route) {
       case 'home':
-        return html`<div>home sweet home</div>`;
+        return html`<div>home sweet home (mount $syncState in here)</div>`;
       case 'login':
         return html`<pod-login></pod-login>`;
       case '404':

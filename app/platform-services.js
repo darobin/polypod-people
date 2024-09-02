@@ -28,12 +28,12 @@ export function registerPlatformServiceHandlers () {
 // }
 
 async function handleGetCredentials () {
-  return { ok: true, data: await getCredentials() };
+  return await getCredentials();
 }
 
 async function handleSetCredentials (usr, pwd) {
   await setCredentials(usr, pwd);
-  return { ok: true };
+  return true;
 }
 
 // async function handleLogin (ev, usr, pwd) {

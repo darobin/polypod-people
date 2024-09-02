@@ -7,15 +7,17 @@ export const $loggedIn = atom(false);
 export const $loginLoading = atom(true);
 
 onMount($loggedIn, async () => {
+  console.warn(`MOUNTING LOGGEDIN`);
   const leave = () => $router.open('/login', true);
   const creds = await window.polypod.getCredentials();
-  if (!creds) return leave();
-  const session = await matrixLogin(creds.user, creds.password);
-  // XXX this is NOT THE API
-  if (!session.ok) return leave();
-  // XXX
-  // - success: go to /
-  // - mount $syncState in home
+  console.warn(creds);
+  if (!creds) {
+    $loginLoading.set(false);
+    return leave();
+  }
+  const success = await matrixLogin(creds.user, creds.password);
+  if (!success) return leave();
+  $router.open('/', true);
 });
 
 // this is a different login from the one in matrix: it interacts with that but ALSO
