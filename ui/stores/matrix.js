@@ -30,12 +30,10 @@ onMount($syncState, async () => {
   await client.startClient({ initialSyncLimit: 100 });
 });
 
+// This throws when it fails. Handle at caller.
 export async function login (usr, pwd) {
   const sess = await client.loginWithPassword(`@${usr}:${window.polypod.domain}`, pwd);
-  // XXX handle errors and return false
   $session.set(sess);
-  console.warn(`LOGIN`, JSON.stringify(sess, null, 2));
-  return true;
 }
 
 export function stopClient () {
