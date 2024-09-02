@@ -5,7 +5,6 @@ import { login as matrixLogin } from './matrix.js';
 
 export const $loggedIn = atom(false);
 export const $loginLoading = atom(true);
-export const $identities = atom([]);
 
 onMount($loggedIn, async () => {
   const leave = () => $router.open('/login', true);
@@ -19,23 +18,12 @@ onMount($loggedIn, async () => {
   // - mount $syncState in home
 });
 
-// XXX
 // this is a different login from the one in matrix: it interacts with that but ALSO
 // save credentials to the backend on success and manages identity state.
 export async function login (usr, pwd) {
-  
+  const success = await matrixLogin(usr, pwd);
+  $loggedIn.set(success);
+  $loginLoading.set(false);
+  if (!success) return;
+  await window.polypod.setCredentials(usr, pwd);
 }
-
-// export async function loadIdentities () {
-//   $loginLoading.set(true);
-//   const res = await window.polypod.loadIdentities();
-//   $loginLoading.set(false);
-//   if (res.ok) {
-//     $loggedIn.set(true);
-//     $identities.set(res.data);
-//   }
-//   else {
-//     $loggedIn.set(false);
-//     $identities.set([]);
-//   }
-// }
