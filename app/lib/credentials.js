@@ -9,7 +9,7 @@ export async function getCredentials () {
     if (creds.length > 1) {
       console.warn(`There are ${creds.length} credentials stored for ${service} but Polypod only handles one.`);
     }
-    return { username: creds[0].account, password: creds[0].password };
+    return { user: creds[0].account, password: creds[0].password };
   }
   else {
     return null;

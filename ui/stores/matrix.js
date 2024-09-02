@@ -36,6 +36,23 @@ export async function login (usr, pwd) {
   $session.set(sess);
 }
 
+// Throws.
+export async function register (user, password, token, email) {
+  if ([user, password, token, email].find(x => !x)) {
+    console.warn(user, password, token, email);
+    throw new Error(`All of user, password, token, and email must be provided.`);
+  }
+  const sess = await client.register(
+    user,
+    password, 
+    null,
+    { type: 'm.login.registration_token', token },
+    { email }
+  );
+  $session.set(sess);
+}
+
+
 export function stopClient () {
   client.stopClient();
 }

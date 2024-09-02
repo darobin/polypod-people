@@ -1,11 +1,11 @@
 
 import { LitElement, html, css } from 'lit';
 import { withStores } from "@nanostores/lit";
-import { $loggedIn, $loginLoading, $loginError, login } from '../stores/identity.js';
+import { $loggedIn, $loginLoading, $loginError, $registrationError, login, register } from '../stores/identity.js';
 import formStyles from '../styles/forms.js';
 import { handleForm } from '../lib/form.js';
 
-export class PolypodLogin extends withStores(LitElement, [$loggedIn, $loginLoading, $loginError]) {
+export class PolypodLogin extends withStores(LitElement, [$loggedIn, $loginLoading, $loginError, $registrationError]) {
   static styles = [
     css`
       :host {
@@ -30,9 +30,10 @@ export class PolypodLogin extends withStores(LitElement, [$loggedIn, $loginLoadi
     const data = handleForm(ev);
     await login(data.username, data.password);
   }
-  handleRegistration (ev) {
+  async handleRegistration (ev) {
     const data = handleForm(ev);
-    // XXX work with the login action
+    console.warn(data);
+    await register(data.username, data['password-1'], data.token, data.email);
   }
   checkSamePassword (ev) {
     const input = ev.currentTarget;
@@ -42,9 +43,6 @@ export class PolypodLogin extends withStores(LitElement, [$loggedIn, $loginLoadi
     else input.setCustomValidity("Passwords do not match.");
   }
 
-  // XXX
-  //  - has to support errors + wait after submit
-  //  - on success the router should take us home automatically
   render () {
     if ($loginLoading.get()) return html`<pod-loading></pod-loading>`
     return html`
@@ -68,8 +66,14 @@ export class PolypodLogin extends withStores(LitElement, [$loggedIn, $loginLoadi
           </sl-tab-panel>
           <sl-tab-panel name="register">
             <form @submit=${this.handleRegistration}>
+              <sl-alert variant="warning" ?open=${!!$registrationError.get()} closable>
+                <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>
+                <strong>${$registrationError.get()}</strong><br>
+                Please fix the errors and try registering in again to continue.
+              </sl-alert>
               <sl-input label="User name" name="username" required pattern="[a-z0-9\\._=\\/\\+\\-]{1,}"
                 help-text="a-z, 0-9, ., _, =, /, +, or -"></sl-input>
+              <sl-input type="email" label="Email" name="email" required></sl-input>
               <sl-input type="password" label="Password" name="password-1" password-toggle required></sl-input>
               <sl-input type="password" label="Repeat password" name="password-2" password-toggle required 
                 @sl-input=${this.checkSamePassword}></sl-input>

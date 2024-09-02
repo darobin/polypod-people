@@ -31,7 +31,7 @@ async function handleGetCredentials () {
   return await getCredentials();
 }
 
-async function handleSetCredentials (usr, pwd) {
+async function handleSetCredentials (ev, usr, pwd) {
   await setCredentials(usr, pwd);
   return true;
 }
