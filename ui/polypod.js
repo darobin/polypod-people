@@ -22,3 +22,4 @@ import './el/404.js';
 import './el/root-routes.js';
 import './el/loading.js';
 import './el/login.js';
+import './el/sidebar.js';

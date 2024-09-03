@@ -23,6 +23,8 @@ onMount($loggedIn, async () => {
   }
   try {
     await matrixLogin(creds.user, creds.password);
+    $loginLoading.set(false);
+    $loggedIn.set(true);
     $router.open('/', true);
   }
   catch (err) {

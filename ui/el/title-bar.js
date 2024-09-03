@@ -23,6 +23,7 @@ export class PolypodTitleBar extends withStores(LitElement, [$loggedIn, $uiSideB
         padding-left: calc(var(--pod-side-bar-width) - var(--pod-osx-title-bar-height));
       }
       #icon-bar {
+        -webkit-app-region: no-drag;
         display: flex;
         align-items: center;
         min-width: var(--pod-osx-title-bar-height);
