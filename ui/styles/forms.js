@@ -9,6 +9,10 @@ div.action-bar {
   text-align: right;
 }
 
+form.compact sl-input {
+  margin-bottom: var(--sl-spacing-x-small);
+}
+
 /* Invalid forms */
 sl-input[data-user-invalid]::part(base),
 sl-select[data-user-invalid]::part(combobox),

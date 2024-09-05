@@ -14,3 +14,7 @@ export function hideSideBar () { $explicitSideBarShowing.set(false); }
 export function toggleSideBar () { $explicitSideBarShowing.set(!$explicitSideBarShowing.get()); }
 
 export const $uiSideBarButtonShowing = computed([$loggedIn], (loggedIn) => loggedIn);
+
+export const $uiAddingPod = atom(false);
+export function showAddingPod () { $uiAddingPod.set(true); }
+export function hideAddingPod () { $uiAddingPod.set(false); }

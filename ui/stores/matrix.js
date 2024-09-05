@@ -1,5 +1,5 @@
 
-import { atom, map, onMount } from 'nanostores';
+import { atom, map } from 'nanostores';
 import * as m from 'matrix-js-sdk';
 
 const store = new m.IndexedDBStore({ indexedDB: window.indexedDB, localStorage: window.localStorage });
@@ -117,4 +117,9 @@ export async function startClient () {
 export function stopClient () {
   client.stopClient();
   clientStarted = false;
+}
+
+export async function createRoom (name) {
+  await client.createRoom({ name });
+  // console.warn(`CREATED`, JSON.stringify(nr, null, 2));
 }

@@ -32,7 +32,6 @@ export class PolypodLogin extends withStores(LitElement, [$loggedIn, $loginLoadi
   }
   async handleRegistration (ev) {
     const data = handleForm(ev);
-    console.warn(data);
     await register(data.username, data['password-1'], data.token, data.email);
   }
   checkSamePassword (ev) {
