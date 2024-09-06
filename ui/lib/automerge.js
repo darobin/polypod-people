@@ -1,5 +1,6 @@
 
-import { next as am } from "@automerge/automerge";
+// we need this so that it initialises Automerge right
+import "@automerge/automerge/next";
 import { Repo } from "@automerge/automerge-repo/slim";
 import { BrowserWebSocketClientAdapter } from "@automerge/automerge-repo-network-websocket";
 import { IndexedDBStorageAdapter } from '@automerge/automerge-repo-storage-indexeddb';
@@ -21,11 +22,3 @@ export function nanomerge ($atom, docID) {
   });
   return $atom;
 }
-
-// let doc = repo.find(docID) || repo.create();
-// await doc.whenReady();
-// console.warn(`Document created with id=${doc.documentId}`);
-// doc.change((d) => (d.text = `hello world ${Date.now()}`));
-// doc.on("change", ({ doc }) => {
-//   console.log("new text is ", doc.text);
-// });

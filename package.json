@@ -41,7 +41,6 @@
     "patterns": [
       "!test/**",
       "!.github/**",
-      "!.githubg/**",
       "!data/**",
       "!scratch/**"
     ]
