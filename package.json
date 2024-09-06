@@ -8,7 +8,7 @@
   "scripts": {
     "start": "./server.js",
     "app": "electron --trace-warnings .",
-    "watch": "concurrently --handle-input npm:watch-js npm:monitor",
+    "watch": "concurrently --handle-input npm:watch-js npm:monitor npm:watch-server",
     "monitor": "electronmon --trace-warnings --require ./dev-watch.cjs .",
     "build": "npm run build-assets && npm run build-js && npm run build-electron",
     "watch-js": "esbuild ui/polypod.js --bundle --outfile=ui/polypod.min.js --format=esm --watch --sourcemap",
@@ -16,6 +16,7 @@
     "build-electron": "npm exec electron-builder --mac",
     "build-assets": "./copy-assets.sh",
     "watch-matrix": "/Users/robin/Downloads/conduwuit-0.4.5/result/bin/conduit -c ./conduwuit-local.toml",
+    "watch-server": "nodemon server.js",
     "test": "mocha --exit"
   },
   "bin": {},
@@ -23,6 +24,18 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/darobin/polypod-people.git"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      ".github",
+      "app",
+      "data",
+      "node_modules",
+      "scratch",
+      "test",
+      "ui",
+      "dev-watch.cjs"
+    ]
   },
   "eslintConfig": {
     "env": {
