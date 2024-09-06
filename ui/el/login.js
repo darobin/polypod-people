@@ -32,7 +32,7 @@ export class PolypodLogin extends withStores(LitElement, [$loggedIn, $loginLoadi
   }
   async handleRegistration (ev) {
     const data = handleForm(ev);
-    await register(data.username, data['password-1'], data.token, data.email);
+    await register(data.username, data['password-1'], data.token, data.name, data.email);
   }
   checkSamePassword (ev) {
     const input = ev.currentTarget;
@@ -72,6 +72,7 @@ export class PolypodLogin extends withStores(LitElement, [$loggedIn, $loginLoadi
               </sl-alert>
               <sl-input label="User name" name="username" required pattern="[a-z0-9\\._=\\/\\+\\-]{1,}"
                 help-text="a-z, 0-9, ., _, =, /, +, or -"></sl-input>
+              <sl-input label="Name" name="name" required></sl-input>
               <sl-input type="email" label="Email" name="email" required></sl-input>
               <sl-input type="password" label="Password" name="password-1" password-toggle required></sl-input>
               <sl-input type="password" label="Repeat password" name="password-2" password-toggle required 

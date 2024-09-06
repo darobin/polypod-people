@@ -2,11 +2,11 @@
 import { LitElement, html, css, nothing } from 'lit';
 import { withStores } from "@nanostores/lit";
 import { $uiSideBarShowing, $uiAddingPod, showAddingPod, hideAddingPod, } from '../stores/ui.js';
-import { $rooms, createRoom } from '../stores/matrix.js';
+import { $pods, createPod } from '../stores/pods.js';
 import formStyles from '../styles/forms.js';
 import { handleForm } from '../lib/form.js';
 
-export class PolypodSideBar extends withStores(LitElement, [$uiSideBarShowing, $uiAddingPod, $rooms]) {
+export class PolypodSideBar extends withStores(LitElement, [$uiSideBarShowing, $uiAddingPod, $pods]) {
   static styles = [
     css`
       #root {
@@ -100,7 +100,7 @@ export class PolypodSideBar extends withStores(LitElement, [$uiSideBarShowing, $
   }
   async handleAddPod (ev) {
     const data = handleForm(ev);
-    await createRoom(data.name);
+    await createPod(data.name);
     hideAddingPod();
   }
   // XXX ONGOING PROBLEMS
@@ -109,7 +109,7 @@ export class PolypodSideBar extends withStores(LitElement, [$uiSideBarShowing, $
   // - mounts rooms twice
 
   render () {
-    const rooms = Object.values($rooms.get());
+    const rooms = Object.values($pods.get());
     const list = rooms?.length
       ? rooms.map(r => r ? html`<li data-room-id=${r.roomId}><sl-icon name="person-video"></sl-icon> ${r.name}</li>` : nothing)
       : html`<li class="no-results">No pods.</li>`

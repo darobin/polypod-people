@@ -9,10 +9,8 @@ import { registerPlatformServiceHandlers, setupMenu } from './platform-services.
 
 // Docs
 // - profile: so the app can support multiple profiles
-// - domain: the Matrix domain
 export const ctx = {
   profile: isProd ? '_default' : '_default-dev',
-  // domain: isProd ? 'matrix.polypod.space' : 'matrix.polypod.bast',
 };
 let mainWindow;
 const rel = makeRel(import.meta.url);

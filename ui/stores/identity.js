@@ -1,13 +1,25 @@
 
 import { atom, onMount } from 'nanostores';
 import { $router } from './router.js';
-import { login as matrixLogin, register as matrixRegister } from './matrix.js';
-import { matrixErrorToMessage } from '../lib/errors.js';
+import { client } from '../lib/api-client.js';
+
+// XXX
+// - expose a store to the person that pulls from automerge
+// - THEN do pods
 
 export const $loggedIn = atom(false);
 export const $loginLoading = atom(true);
 export const $loginError = atom(false);
 export const $registrationError = atom(false);
+
+export function setLoggedIn (documentId) {
+  $loginLoading.set(false);
+  $loggedIn.set(documentId);
+}
+export function setLoggedOut () {
+  $loginLoading.set(false);
+  $loggedIn.set(false);
+}
 
 // NOTE
 // Calling $router.open() is a code smell. The route should be computed from the state.
@@ -18,54 +30,65 @@ onMount($loggedIn, async () => {
   const leave = () => $router.open('/login', true);
   const creds = await window.polypod.getCredentials();
   if (!creds) {
-    $loginLoading.set(false);
+    setLoggedOut();
     return leave();
   }
   try {
-    await matrixLogin(creds.user, creds.password);
-    $loginLoading.set(false);
-    $loggedIn.set(true);
+    const user = await apiLogin(creds.user, creds.password);
+    setLoggedIn(user.documentId);
     $router.open('/', true);
   }
   catch (err) {
-    // We don't use the error here but we could in order to separate time outs from
-    // credential changes that could trigger failure.
-    $loginLoading.set(false);
-    $loggedIn.set(false);
-    $loginError.set(`Automatic login failed: ${matrixErrorToMessage(err)}.`);
+    setLoggedOut();
+    $loginError.set(`Automatic login failed: ${err.message}.`);
     return leave();
   }
 });
+
+// XXX
+// Manage account details here by subscribing to $loggedIn
+// - when false, empty
+// - when truthy, use the documentId to set ourselves up
 
 // This is a different login from the one in matrix: it interacts with that but ALSO
 // save credentials to the backend on success and manages identity state.
 export async function login (usr, pwd) {
   $loginError.set(false);
   try {
-    await matrixLogin(usr, pwd);
-    $loggedIn.set(true);
-    $loginLoading.set(false);
+    const user = await apiLogin(usr, pwd);
+    setLoggedIn(user.documentId);
     await window.polypod.setCredentials(usr, pwd);
     $router.open('/', true);
   }
   catch (err) {
-    $loggedIn.set(false);
-    $loginError.set(`Login failed: ${matrixErrorToMessage(err)}.`);
+    setLoggedOut();
+    $loginError.set(`Login failed: ${err.message}.`);
   }
 }
 
 // This is also a different register from the one in matrix.
-export async function register (usr, pwd, token, email) {
+export async function register (usr, pwd, token, name, email) {
   $registrationError.set(false);
   try {
-    await matrixRegister(usr, pwd, token, email);
-    $loggedIn.set(true);
-    $loginLoading.set(false);
+    const user = await apiRegister(usr, pwd, token, name, email);
+    setLoggedIn(user.documentId);
     await window.polypod.setCredentials(usr, pwd);
     $router.open('/', true);
   }
   catch (err) {
-    $loggedIn.set(false);
-    $registrationError.set(`Registration failed: ${matrixErrorToMessage(err)}.`);
+    setLoggedOut();
+    $registrationError.set(`Registration failed: ${err.message}.`);
   }
+}
+
+async function apiLogin (username, password) {
+  const res = await client.post('/login', { username, password });
+  if (res.data?.ok) return res.data.data;
+  throw new Error(res.data.error);
+}
+
+async function apiRegister (username, password, token, name, email) {
+  const res = await client.post('/register', { username, password, name, email, token });
+  if (res.data?.ok) return res.data.data;
+  throw new Error(res.data.error);
 }
