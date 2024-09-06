@@ -41,7 +41,7 @@
   "devDependencies": {
     "@nanostores/lit": "github:darobin/lit#patch-1",
     "@shoelace-style/shoelace": "^2.16.0",
-    "axios": "^1.7.4",
+    "axios": "^1.7.7",
     "chalk": "^5.3.0",
     "concurrently": "^8.2.2",
     "electron": "^31.3.1",
@@ -50,12 +50,14 @@
     "esbuild": "^0.23.0",
     "eslint": "^8.57.0",
     "esm": "^3.2.25",
+    "get-port": "^7.1.0",
     "keytar": "^7.9.0",
     "lit": "^3.2.0",
     "mocha": "^10.6.0",
     "nanoid": "^5.0.7",
     "nanoid-dictionary": "^4.3.0",
-    "nanostores": "^0.11.2"
+    "nanostores": "^0.11.2",
+    "why-is-node-running": "^3.2.0"
   },
   "dependencies": {
     "@automerge/automerge-repo": "^1.2.1",
@@ -64,6 +66,7 @@
     "bcrypt": "^5.1.1",
     "email-validator": "^2.0.4",
     "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
     "ws": "^8.18.0"
   }
 }
