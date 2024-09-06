@@ -14,6 +14,7 @@ contextBridge.exposeInMainWorld('polypod', {
   // },
   // configuration
   domain: (process.env.NODE_ENV === 'production') ? 'matrix.polypod.space' : 'matrix.polypod.bast',
+  server: (process.env.NODE_ENV === 'production') ? 'polypod.space' : 'polypod.bast',
   // identity & login
   getCredentials: () => invoke('identity:get-credentials'),
   setCredentials: (usr, pwd) => invoke('identity:set-credentials', usr, pwd),

@@ -11,5 +11,5 @@ const server = new PolypodAPIServer({
   jwtSecret: JWT_SECRET,
 });
 await server.run(() => {
-  console.warn(`Polypod server running at http://localhost:${this.port}`);
+  console.warn(`Polypod server running at http://localhost:${PORT}`);
 });

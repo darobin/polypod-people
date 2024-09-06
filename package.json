@@ -69,7 +69,8 @@
     "mocha": "^10.6.0",
     "nanoid": "^5.0.7",
     "nanoid-dictionary": "^4.3.0",
-    "nanostores": "^0.11.2"
+    "nanostores": "^0.11.2",
+    "nodemon": "^3.1.4"
   },
   "dependencies": {
     "@automerge/automerge-repo": "^1.2.1",
