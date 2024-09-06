@@ -5,7 +5,7 @@ const { readdirSync } = require('fs');
 
 // Electronmon insists on being magic and detecting which files should trigger a render reload versus
 // a process restart. Unfortunately, the ESM magic gets in the way of the Electronmon magic and it
-// sees only a fraction of of the restart files. This file is meant to be added so that it gets
+// sees only a fraction of the restart files. This file is meant to be added so that it gets
 // required by the subprocess so that it can simulate discovering the files which we know are
 // restart files.
 // `electronmon --trace-warnings --require ./dev-watch.cjs .`

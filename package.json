@@ -11,8 +11,8 @@
     "watch": "concurrently --handle-input npm:watch-js npm:monitor npm:watch-server",
     "monitor": "electronmon --trace-warnings --require ./dev-watch.cjs .",
     "build": "npm run build-assets && npm run build-js && npm run build-electron",
-    "watch-js": "esbuild ui/polypod.js --bundle --outfile=ui/polypod.min.js --format=esm --watch --sourcemap",
-    "build-js": "esbuild ui/polypod.js --bundle --outfile=ui/polypod.min.js --format=esm",
+    "watch-js": "./build.js --watch",
+    "build-js": "./build.js",
     "build-electron": "npm exec electron-builder --mac",
     "build-assets": "./copy-assets.sh",
     "watch-matrix": "/Users/robin/Downloads/conduwuit-0.4.5/result/bin/conduit -c ./conduwuit-local.toml",
@@ -37,6 +37,15 @@
       "dev-watch.cjs"
     ]
   },
+  "electronmon": {
+    "patterns": [
+      "!test/**",
+      "!.github/**",
+      "!.githubg/**",
+      "!data/**",
+      "!scratch/**"
+    ]
+  },
   "eslintConfig": {
     "env": {
       "browser": true,
@@ -52,6 +61,7 @@
     "rules": {}
   },
   "devDependencies": {
+    "@automerge/automerge-repo-storage-indexeddb": "^1.2.1",
     "@nanostores/lit": "github:darobin/lit#patch-1",
     "@shoelace-style/shoelace": "^2.16.0",
     "axios": "^1.7.7",
@@ -61,6 +71,7 @@
     "electron-settings": "^4.0.4",
     "electronmon": "^2.0.3",
     "esbuild": "^0.23.0",
+    "esbuild-plugin-wasm": "^1.1.0",
     "eslint": "^8.57.0",
     "esm": "^3.2.25",
     "get-port": "^7.1.0",

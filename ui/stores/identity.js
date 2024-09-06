@@ -2,6 +2,7 @@
 import { atom, onMount } from 'nanostores';
 import { $router } from './router.js';
 import { client } from '../lib/api-client.js';
+import { nanomerge } from '../lib/automerge.js';
 
 // XXX
 // - expose a store to the person that pulls from automerge
@@ -45,10 +46,11 @@ onMount($loggedIn, async () => {
   }
 });
 
-// XXX
-// Manage account details here by subscribing to $loggedIn
-// - when false, empty
-// - when truthy, use the documentId to set ourselves up
+export const $user = atom(false);
+$loggedIn.subscribe((docID) => {
+  if (!docID) return $user.set(false);
+  nanomerge($user, docID);
+});
 
 // This is a different login from the one in matrix: it interacts with that but ALSO
 // save credentials to the backend on success and manages identity state.
