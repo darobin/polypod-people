@@ -2,7 +2,8 @@
 import { atom, onMount } from 'nanostores';
 import { $router } from './router.js';
 import { client } from '../lib/api-client.js';
-import { nanomerge } from '../lib/automerge.js';
+import { repo } from '../lib/automerge.js';
+
 
 // XXX
 // - expose a store to the person that pulls from automerge
@@ -47,9 +48,20 @@ onMount($loggedIn, async () => {
 });
 
 export const $user = atom(false);
-$loggedIn.subscribe((docID) => {
-  if (!docID) return $user.set(false);
-  nanomerge($user, docID);
+// ENCAPSULATE THIS LATER
+// Managing the nanostore+automerge lifecycle is a little tricky
+let userDH;
+$loggedIn.subscribe(async (docID) => {
+  const cb = (doc) => $user.set(doc);
+  if (!docID) {
+    if (userDH) userDH.off('change', cb);
+    $user.set(false);
+    return;
+  }
+  userDH = repo.find(docID);
+  const doc = await userDH.doc();
+  $user.set(doc);
+  userDH.on('change', cb);
 });
 
 // This is a different login from the one in matrix: it interacts with that but ALSO
@@ -81,6 +93,12 @@ export async function register (usr, pwd, token, name, email) {
     setLoggedOut();
     $registrationError.set(`Registration failed: ${err.message}.`);
   }
+}
+
+export async function logout () {
+  $loginError.set(false);
+  setLoggedOut();
+  $router.open('/login', true);
 }
 
 async function apiLogin (username, password) {

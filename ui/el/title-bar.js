@@ -2,14 +2,14 @@
 import { LitElement, html, css, nothing } from 'lit';
 import { withStores } from "@nanostores/lit";
 import { $uiSideBarShowing, toggleSideBar, $uiSideBarButtonShowing } from '../stores/ui.js';
-import { $loggedIn } from '../stores/identity.js';
+import { $loggedIn, $user, logout } from '../stores/identity.js';
 
 // XXX NEXT STEPS
 // - create a pod-user component
 // - have it listen to $user in identity
 // - have it use sl-avatar with a mapping of the initials
 
-export class PolypodTitleBar extends withStores(LitElement, [$loggedIn, $uiSideBarShowing, $uiSideBarButtonShowing]) {
+export class PolypodTitleBar extends withStores(LitElement, [$loggedIn, $user, $uiSideBarShowing, $uiSideBarButtonShowing]) {
   static styles = [
     css`
       #root {
@@ -35,12 +35,24 @@ export class PolypodTitleBar extends withStores(LitElement, [$loggedIn, $uiSideB
         min-height: var(--pod-osx-title-bar-height);
         border-right: 1px solid var(--pod-mid-grey);
       }
-      #title {
+      #title, #user {
         display: flex;
         align-items: center;
-        width: -webkit-fill-available;
         background: var(--pod-lightest);
         height: 100%;
+      }
+      #title {
+        width: -webkit-fill-available;
+      }
+      #user {
+        -webkit-app-region: no-drag;
+        padding-right: var(--sl-spacing-x-small);
+      }
+      sl-avatar {
+        --size: 2rem;
+      }
+      sl-avatar::part(base) {
+        background-color: var(--initials-bg);
       }
       h1 {
         display: flex;
@@ -63,9 +75,27 @@ export class PolypodTitleBar extends withStores(LitElement, [$loggedIn, $uiSideB
       }
     `
   ];
+  handleAvatarMenu (ev) {
+    const selectedItem = ev.detail.item;
+    if (selectedItem === 'logout') logout();
+  }
   render () {
     const open = $uiSideBarShowing.get();
     const label = open ? 'Hide side bar' : 'Show side bar';
+    const user = $user.get();
+    let userUI = nothing;
+    if (user) {
+      const initials = (user.name?.val || '?').replace(/^\s+|\s+$/, '').split(/\s+/).map(n => n[0]?.toUpperCase()).join('');
+      userUI = html`<sl-dropdown @sl-select=${this.handleAvatarMenu} hoist distance="3">
+        <sl-avatar slot="trigger" initials=${initials} style="--initials-bg: ${initials2hsl(initials, 80, 30)}"></sl-avatar>
+        <sl-menu>
+          <sl-menu-item value="logout">
+            Log out
+            <sl-icon slot="prefix" name="door-open"></sl-icon>
+          </sl-menu-item>
+        </sl-menu>
+      </sl-dropdown>`;
+    }
     return html`
       <div id="root" class=${open ? 'open' : 'closed'}>
         <div id="icon-bar">
@@ -81,9 +111,29 @@ export class PolypodTitleBar extends withStores(LitElement, [$loggedIn, $uiSideB
             <span>polypod</span>
           </h1>
         </div>
+        <div id="user">
+          ${userUI}
+        </div>
       </div>
     `;
   }
+  updated () {
+    setTimeout(() => {
+      const slp = this.shadowRoot.querySelector('sl-dropdown')?.shadowRoot.querySelector('sl-popup');
+      if (slp) {
+        slp.setAttribute('arrow', 'arrow');
+        slp.setAttribute('style', `--arrow-color: var(--sl-panel-border-color)`);
+      }
+    }, 0);
+  }
+}
+
+function initials2hsl (initials, sat, lum) {
+  let hash = 0;
+  for (let i = 0; i < initials.length; i++) {
+    hash = initials.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return `hsl(${hash % 360}, ${sat}%, ${lum}%)`;
 }
 
 customElements.define('pod-title-bar', PolypodTitleBar);
