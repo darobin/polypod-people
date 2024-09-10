@@ -52,7 +52,9 @@ export const $user = atom(false);
 // Managing the nanostore+automerge lifecycle is a little tricky
 let userDH;
 $loggedIn.subscribe(async (docID) => {
-  const cb = (doc) => $user.set(doc);
+  const cb = ({ doc }) => {
+    $user.set(doc);
+  };
   if (!docID) {
     if (userDH) userDH.off('change', cb);
     $user.set(false);

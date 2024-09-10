@@ -2,11 +2,12 @@
 import { LitElement, html, css, nothing } from 'lit';
 import { withStores } from "@nanostores/lit";
 import { $uiSideBarShowing, $uiAddingPod, showAddingPod, hideAddingPod, } from '../stores/ui.js';
-import { $pods, createPod } from '../stores/pods.js';
+import { createPod } from '../stores/pods.js';
+import { $user } from '../stores/identity.js';
 import formStyles from '../styles/forms.js';
 import { handleForm } from '../lib/form.js';
 
-export class PolypodSideBar extends withStores(LitElement, [$uiSideBarShowing, $uiAddingPod, $pods]) {
+export class PolypodSideBar extends withStores(LitElement, [$uiSideBarShowing, $uiAddingPod, $user]) {
   static styles = [
     css`
       #root {
@@ -94,6 +95,7 @@ export class PolypodSideBar extends withStores(LitElement, [$uiSideBarShowing, $
   ];
 
   handleSelectRoom (ev) {
+    // XXX this is now wrong
     const rid = ev.target?.dataSet?.roomId;
     if (!rid) return;
     // XXX select
@@ -101,24 +103,21 @@ export class PolypodSideBar extends withStores(LitElement, [$uiSideBarShowing, $
   async handleAddPod (ev) {
     const data = handleForm(ev);
     await createPod(data.name);
+    // XXX should set it as selected, even if it doesn't exist yet
     hideAddingPod();
   }
-  // XXX ONGOING PROBLEMS
-  // - Got room state event for unknown room !GKZdFA2YaPEkAJVvhx:matrix.polypod.bast!
-  // - Doesn't refresh room list
-  // - mounts rooms twice
-
+  
   render () {
-    const rooms = Object.values($pods.get());
-    const list = rooms?.length
-      ? rooms.map(r => r ? html`<li data-room-id=${r.roomId}><sl-icon name="person-video"></sl-icon> ${r.name}</li>` : nothing)
+    const user = $user.get();
+    const list = (user && user.pods?.length)
+      ? user.pods.map(pid => html`<li><sl-icon name="person-video"></sl-icon> <pod-output docid=${pid} field="name"></pod-output></li>`)
       : html`<li class="no-results">No pods.</li>`
     ;
     const addPodForm = $uiAddingPod.get()
       ? html`<li class="add-pod">
           <form @submit=${this.handleAddPod} class="compact">
             <sl-divider></sl-divider>
-            <sl-input name="name" required></sl-input>
+            <sl-input name="name" required autofocus></sl-input>
             <div class="action-bar">
               <sl-button @click=${hideAddingPod} size="small" variant="danger">Cancel</sl-button>
               <sl-button type="submit" size="small" variant="primary">Add</sl-button>

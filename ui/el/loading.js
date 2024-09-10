@@ -65,11 +65,6 @@ class PolypodLoading extends LitElement {
       }
     }
   `;
-
-  constructor () {
-    super();
-  }
-
   render () {
     return html`<div><span></span></div>`;
   }

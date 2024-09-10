@@ -23,3 +23,4 @@ import './el/root-routes.js';
 import './el/loading.js';
 import './el/login.js';
 import './el/sidebar.js';
+import './el/output.js';
