@@ -69,3 +69,7 @@ body {
 pod-title-bar {
   grid-area: a;
 }
+
+strong {
+  font-variation-settings: "wght" 500;
+}
