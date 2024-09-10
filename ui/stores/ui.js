@@ -1,7 +1,7 @@
 
 import { atom, computed } from 'nanostores';
 import { $loggedIn } from './identity.js';
-// import { $router } from './router.js';
+import { repo } from "../lib/automerge.js";
 
 const $explicitSideBarShowing = atom(true);
 export const $uiSideBarShowing = computed(
@@ -18,3 +18,13 @@ export const $uiSideBarButtonShowing = computed([$loggedIn], (loggedIn) => logge
 export const $uiAddingPod = atom(false);
 export function showAddingPod () { $uiAddingPod.set(true); }
 export function hideAddingPod () { $uiAddingPod.set(false); }
+
+export const $uiSelectedPodID = atom(false);
+export function selectPod (pid) { $uiSelectedPodID.set(pid); }
+export const $uiSelectedPod = atom(false);
+$uiSelectedPodID.subscribe(async (pid) => {
+  if (!pid) return $uiSelectedPod.set(false);
+  const dh = repo.find(pid);
+  await dh.whenReady();
+  $uiSelectedPod.set(await dh.doc());
+});

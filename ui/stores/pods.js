@@ -5,5 +5,6 @@ import { $loggedIn } from "./identity.js";
 
 export async function createPod (name) {
   const ph = repo.find($loggedIn.get());
-  automergeCreatePod(repo, { name }, ph);
+  const pod = await automergeCreatePod(repo, { name }, ph);
+  return pod;
 }

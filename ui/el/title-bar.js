@@ -4,11 +4,6 @@ import { withStores } from "@nanostores/lit";
 import { $uiSideBarShowing, toggleSideBar, $uiSideBarButtonShowing } from '../stores/ui.js';
 import { $loggedIn, $user, logout } from '../stores/identity.js';
 
-// XXX NEXT STEPS
-// - create a pod-user component
-// - have it listen to $user in identity
-// - have it use sl-avatar with a mapping of the initials
-
 export class PolypodTitleBar extends withStores(LitElement, [$loggedIn, $user, $uiSideBarShowing, $uiSideBarButtonShowing]) {
   static styles = [
     css`

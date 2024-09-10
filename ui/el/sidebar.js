@@ -1,7 +1,7 @@
 
 import { LitElement, html, css, nothing } from 'lit';
 import { withStores } from "@nanostores/lit";
-import { $uiSideBarShowing, $uiAddingPod, showAddingPod, hideAddingPod, } from '../stores/ui.js';
+import { $uiSideBarShowing, $uiAddingPod, showAddingPod, hideAddingPod, selectPod } from '../stores/ui.js';
 import { createPod } from '../stores/pods.js';
 import { $user } from '../stores/identity.js';
 import formStyles from '../styles/forms.js';
@@ -95,24 +95,29 @@ export class PolypodSideBar extends withStores(LitElement, [$uiSideBarShowing, $
   ];
 
   handleSelectRoom (ev) {
-    // XXX this is now wrong
-    const rid = ev.target?.dataSet?.roomId;
-    if (!rid) return;
-    // XXX select
+    const pid = ev.currentTarget?.dataset?.podId;
+    if (!pid) return;
+    selectPod(pid);
   }
   async handleAddPod (ev) {
     const data = handleForm(ev);
-    await createPod(data.name);
-    // XXX should set it as selected, even if it doesn't exist yet
+    const pod = await createPod(data.name);
+    selectPod(pod.documentId);
     hideAddingPod();
   }
   
   render () {
     const user = $user.get();
-    const list = (user && user.pods?.length)
-      ? user.pods.map(pid => html`<li><sl-icon name="person-video"></sl-icon> <pod-output docid=${pid} field="name"></pod-output></li>`)
-      : html`<li class="no-results">No pods.</li>`
-    ;
+    let list = html`<li class="no-results">No pods.</li>`;
+    if (user && user.pods?.length) {
+      list = user.pods
+        .map(pid => html`
+          <li data-pod-id=${pid} @click=${this.handleSelectRoom}>
+            <sl-icon name="person-video" slot="prefix"></sl-icon>
+            <pod-output docid=${pid} field="name"></pod-output>
+          </li>
+        `)
+    }
     const addPodForm = $uiAddingPod.get()
       ? html`<li class="add-pod">
           <form @submit=${this.handleAddPod} class="compact">
@@ -130,7 +135,7 @@ export class PolypodSideBar extends withStores(LitElement, [$uiSideBarShowing, $
       <div id="root" class=${$uiSideBarShowing.get() ? 'open' : 'closed'}>
         <sl-card id="pods">
           <h2 slot="header"><sl-icon name="collection"></sl-icon> Pods</h2>
-          <ul @click=${this.handleSelectRoom}>
+          <ul>
             ${list}
             ${addPodForm}
             <li class="action">

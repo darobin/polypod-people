@@ -14,12 +14,8 @@ export class PolypodRootRoutes extends withStores(LitElement, [$router]) {
   render () {
     const { route } = $router.get();
     switch (route) {
-      // XXX
-      // - home has the sidebar, listing the rooms
-      // - mount $syncState in here to determine if loading should be shown
-      // - body is empty unless a room is selected (a $ui thing)
       case 'home':
-        return html`<div>home sweet home (mount $syncState in here)</div>`;
+        return html`<pod-document-list></pod-document-list>`;
       case 'login':
         return html`<pod-login></pod-login>`;
       case '404':

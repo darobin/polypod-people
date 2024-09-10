@@ -24,3 +24,4 @@ import './el/loading.js';
 import './el/login.js';
 import './el/sidebar.js';
 import './el/output.js';
+import './el/document-list.js';
